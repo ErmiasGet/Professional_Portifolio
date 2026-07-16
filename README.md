@@ -1,36 +1,139 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<div align="center">
+
+# Ermias Getahun — Professional Portfolio
+
+A modern, responsive portfolio website showcasing my journey as a Software Engineer & Full Stack Developer.
+
+**[Live Demo](https://ermias-getahun.vercel.app)**
+
+</div>
+
+---
+
+## Tech Stack
+
+<div align="center">
+
+![Next.js](https://img.shields.io/badge/Next.js-16-000000?logo=next.js&logoColor=white)
+![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?logo=tailwindcss&logoColor=white)
+![Framer Motion](https://img.shields.io/badge/Framer_Motion-12-0055FF?logo=framer&logoColor=white)
+
+</div>
+
+## Key Features
+
+- **Dark / Light Mode** — Seamless theme switching with system preference detection
+- **Smooth Animations** — Scroll reveal, stagger effects, and micro-interactions powered by Framer Motion
+- **Fully Responsive** — Optimized for mobile, tablet, and desktop
+- **SEO Optimized** — Meta tags, Open Graph, Twitter Cards, sitemap, and robots.txt
+- **Project Case Studies** — Detailed breakdowns with problem, solution, architecture, and lessons learned
+- **Blog System** — MDX-ready blog with syntax highlighting and GFM support
+- **Contact Form** — Validated with React Hook Form and Zod
+- **Command Palette** — Keyboard-navigable navigation (Ctrl+K)
+- **Scroll Progress** — Visual indicator of page scroll position
+- **Performance Focused** — Static generation, image optimization, and minimal bundle size
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- **Node.js** 18.17 or later
+- **npm**, **yarn**, or **pnpm**
+
+### Installation
+
+```bash
+git clone https://github.com/ErmiasGet/Professional_Portifolio.git
+cd Professional_Portifolio
+npm install
+```
+
+### Development
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Production
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+npm run start
+```
 
-## Learn More
+## Project Structure
 
-To learn more about Next.js, take a look at the following resources:
+```
+src/
+├── app/                    # Next.js App Router pages
+│   ├── layout.tsx          # Root layout (navbar + footer)
+│   ├── page.tsx            # Home page
+│   ├── globals.css         # Design tokens & global styles
+│   ├── blog/               # Blog pages
+│   └── projects/           # Project case study pages
+├── components/
+│   ├── layout/             # Navbar, footer, scroll progress
+│   ├── sections/           # Hero, about, projects, skills, etc.
+│   ├── shared/             # Logo, social links, availability badge
+│   └── ui/                 # Reusable UI primitives
+├── data/                   # Static data (projects, skills, blog, experience)
+├── animations/             # Scroll reveal & stagger animations
+├── hooks/                  # Custom React hooks
+├── lib/                    # Utilities (cn, theme store)
+├── constants/              # Site config, nav links, social links
+└── types/                  # TypeScript interfaces
+public/
+├── favicon.svg             # Browser tab icon
+├── og-image.svg            # Social sharing preview
+├── images/                 # Project screenshots
+└── projects/               # Project card illustrations
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Scripts
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start development server |
+| `npm run build` | Create production build |
+| `npm run start` | Start production server |
+| `npm run lint` | Run ESLint |
+| `npm run lint:fix` | Auto-fix lint issues |
+| `npm run typecheck` | Run TypeScript type checking |
 
-## Deploy on Vercel
+## Deployment
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+This project is optimized for **[Vercel](https://vercel.com)**:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Push to GitHub
+2. Import the repository on [vercel.com/new](https://vercel.com/new)
+3. Vercel auto-detects Next.js and deploys
+
+Or deploy manually:
+
+```bash
+npm run build
+```
+
+The `.next` output is ready for any Node.js hosting platform.
+
+## Author
+
+**Ermias Getahun** — Software Engineer | Full Stack Developer
+
+- **Website:** [ermias-getahun.vercel.app](https://ermias-getahun.vercel.app)
+- **GitHub:** [ErmiasGet](https://github.com/ErmiasGet)
+- **LinkedIn:** [ermias-getahun](https://www.linkedin.com/in/ermias-getahun-919623279/)
+- **Email:** abe.jere.jesus@gmail.com
+- **Location:** Addis Ababa, Ethiopia
+
+---
+
+<div align="center">
+
+Built with Next.js, TypeScript, Tailwind CSS, and Framer Motion.
+
+</div>
