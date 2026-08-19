@@ -47,9 +47,9 @@ export const skills: Skill[] = [
   // Programming Languages
   { name: "JavaScript", level: 90, category: "languages", yearsOfExperience: 4 },
   { name: "TypeScript", level: 82, category: "languages", yearsOfExperience: 2 },
-  { name: "Java", level: 75, category: "languages", yearsOfExperience: 2 },
+  { name: "Java", level: 75, category: "languages", yearsOfExperience: 3 },
   { name: "Python", level: 72, category: "languages", yearsOfExperience: 2 },
-  { name: "C++", level: 65, category: "languages", yearsOfExperience: 1 },
+  { name: "C++", level: 75, category: "languages", yearsOfExperience: 4 },
 
   // Tools
   { name: "Git", level: 88, category: "tools", yearsOfExperience: 4 },

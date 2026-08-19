@@ -93,7 +93,7 @@ export function Skills() {
           >
             <StaggerGroup className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" staggerDelay={0.05}>
               {visibleSkills.map((skill) => (
-                <StaggerItem key={skill.name}>
+                <StaggerItem key={`${skill.name}-${skill.category}`}>
                   <GlowCard className="p-4">
                     <div className="flex items-center justify-between mb-3">
                       <h4 className="font-medium">{skill.name}</h4>

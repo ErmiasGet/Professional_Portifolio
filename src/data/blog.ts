@@ -8,6 +8,7 @@ export const blogPosts: BlogPost[] = [
     description:
       "A deep dive into building a comprehensive property rental management platform with Electron desktop app, React Native mobile app, and Node.js backend.",
     content: "",
+    image: "/blog/beten-homes-rent.svg",
     category: "Full Stack",
     tags: ["electron", "react-native", "nodejs", "postgresql", "fullstack"],
     author: "Ermias Getahun",
@@ -22,6 +23,7 @@ export const blogPosts: BlogPost[] = [
     description:
       "How to architect a software system that serves desktop, mobile, and web clients with a shared backend API.",
     content: "",
+    image: "/blog/multi-platform-architecture.svg",
     category: "Full Stack",
     tags: ["architecture", "electron", "react-native", "nodejs"],
     author: "Ermias Getahun",
@@ -36,6 +38,7 @@ export const blogPosts: BlogPost[] = [
     description:
       "Developing DiagnoConnect: A multi-tenant healthcare platform connecting hospitals, clinics, and diagnostic centers.",
     content: "",
+    image: "/blog/spring-boot-react-healthcare.svg",
     category: "Full Stack",
     tags: ["spring-boot", "react", "postgresql", "saas", "healthcare"],
     author: "Ermias Getahun",
@@ -50,6 +53,7 @@ export const blogPosts: BlogPost[] = [
     description:
       "A hands-on guide to using Prisma ORM with PostgreSQL for type-safe database operations in Node.js applications.",
     content: "",
+    image: "/blog/prisma-orm-postgresql-guide.svg",
     category: "Backend",
     tags: ["prisma", "postgresql", "nodejs", "database"],
     author: "Ermias Getahun",
@@ -64,6 +68,7 @@ export const blogPosts: BlogPost[] = [
     description:
       "A comprehensive guide to building production-ready mobile applications using React Native and the Expo managed workflow.",
     content: "",
+    image: "/blog/react-native-expo-mobile-apps.svg",
     category: "Mobile",
     tags: ["react-native", "expo", "mobile", "cross-platform"],
     author: "Ermias Getahun",
@@ -78,6 +83,7 @@ export const blogPosts: BlogPost[] = [
     description:
       "Essential requirement engineering techniques every software developer should know to build solutions that truly meet business needs.",
     content: "",
+    image: "/blog/requirement-engineering-best-practices.svg",
     category: "Engineering",
     tags: ["requirement-engineering", "agile", "software-engineering", "career"],
     author: "Ermias Getahun",

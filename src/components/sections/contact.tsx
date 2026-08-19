@@ -50,14 +50,26 @@ export function Contact() {
   });
 
   const onSubmit = async (data: ContactFormData) => {
-    console.log("Form submitted:", data);
     setIsSubmitting(true);
-    // Simulate API call
-    await new Promise((r) => setTimeout(r, 1500));
-    setIsSubmitting(false);
-    setIsSubmitted(true);
-    reset();
-    setTimeout(() => setIsSubmitted(false), 5000);
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to send message");
+      }
+
+      setIsSubmitted(true);
+      reset();
+      setTimeout(() => setIsSubmitted(false), 5000);
+    } catch {
+      alert("Something went wrong. Please try again later.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (

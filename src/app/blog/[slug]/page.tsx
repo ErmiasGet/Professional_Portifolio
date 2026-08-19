@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import type { Metadata } from "next";
 import { ArrowLeft, Calendar, Clock, User, Tag } from "lucide-react";
 import { Container } from "@/components/ui/container";
@@ -55,6 +56,19 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           <div className="mb-4">
             <Badge variant="secondary">{post.category}</Badge>
           </div>
+
+          {post.image && (
+            <div className="relative aspect-[16/9] mb-8 rounded-2xl overflow-hidden bg-gradient-to-br from-primary/10 to-accent/10">
+              <Image
+                src={post.image}
+                alt={post.title}
+                fill
+                sizes="(max-width: 768px) 100vw, 768px"
+                className="object-cover"
+                priority
+              />
+            </div>
+          )}
 
           <h1 className="text-3xl font-bold sm:text-4xl lg:text-5xl mb-4">
             {post.title}

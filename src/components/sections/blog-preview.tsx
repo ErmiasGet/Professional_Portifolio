@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowRight, Clock, Calendar } from "lucide-react";
 import { Container } from "@/components/ui/container";
 import { SectionHeading } from "@/components/ui/section-heading";
@@ -27,10 +28,20 @@ export function BlogPreview() {
             <StaggerItem key={post.id}>
               <Link href={`/blog/${post.slug}`}>
                 <GlowCard className="group overflow-hidden h-full flex flex-col">
-                  <div className="aspect-[16/9] bg-gradient-to-br from-primary/10 to-accent/10 relative">
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="text-2xl font-bold text-primary/15">{post.title.split(" ").slice(0, 2).join(" ")}</div>
-                    </div>
+                  <div className="relative aspect-[16/9] bg-gradient-to-br from-primary/10 to-accent/10 overflow-hidden">
+                    {post.image ? (
+                      <Image
+                        src={post.image}
+                        alt={post.title}
+                        fill
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                    ) : (
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="text-2xl font-bold text-primary/15">{post.title.split(" ").slice(0, 2).join(" ")}</div>
+                      </div>
+                    )}
                     {post.featured && (
                       <div className="absolute top-3 left-3">
                         <Badge variant="primary">Featured</Badge>

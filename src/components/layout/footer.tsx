@@ -73,9 +73,6 @@ export function Footer() {
             &copy; {currentYear} {SITE_CONFIG.name}. All rights reserved.
           </p>
           <div className="flex items-center gap-4">
-            <p className="flex items-center gap-1 text-sm text-muted-foreground">
-              Built with <Heart className="h-3.5 w-3.5 fill-destructive text-destructive" /> using Next.js
-            </p>
             <button
               onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
               className="flex h-8 w-8 items-center justify-center rounded-lg bg-secondary text-muted-foreground transition-colors hover:bg-primary hover:text-primary-foreground"

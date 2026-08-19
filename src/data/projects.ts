@@ -41,7 +41,7 @@ export const projects: Project[] = [
       "Firebase Cloud Messaging Integration",
     ],
     category: "fullstack",
-    github: "https://github.com/ErmiasGet/beten-homes-rent",
+    github: "https://github.com/ErmiasGet/Beten_House_Rental_System.git",
     problemStatement:
       "Landlords and property managers need a unified system to manage properties, tenants, contracts, payments, and financial reporting across desktop, mobile, and web platforms.",
     solution:
@@ -54,7 +54,7 @@ export const projects: Project[] = [
     ],
     architecture:
       "Multi-platform architecture: Electron + React + TypeScript desktop app, React Native + Expo mobile app, Node.js + Express.js REST API backend, PostgreSQL database with Prisma ORM, Docker containerization, and Firebase Cloud Messaging for push notifications.",
-    duration: "6+ months",
+    duration: "1+ months",
     role: "Full Stack Developer",
     lessonsLearned: [
       "Multi-platform development with shared backend APIs",
@@ -94,7 +94,7 @@ export const projects: Project[] = [
       "Secure data handling",
     ],
     category: "saas",
-    github: "https://github.com/ErmiasGet/diagnoconnect",
+    github: "https://github.com/ErmiasGet/Diagnoconnect.git",
     problemStatement:
       "Healthcare facilities need an integrated platform that connects hospitals, clinics, diagnostic centers, and their staff into a unified ecosystem for managing patient care and diagnostics.",
     solution:
@@ -148,7 +148,7 @@ export const projects: Project[] = [
       "User reviews and ratings",
     ],
     category: "fullstack",
-    github: "https://github.com/ErmiasGet/explore-sheka",
+    github: "https://github.com/ErmiasGet/Explore-Sheka-Discover-Nature-Culture-and-Sustainable-Tourism.git",
     problemStatement:
       "The Sheka region has rich tourism potential but lacks a centralized digital platform to connect visitors with local tourism services and attractions.",
     solution:
@@ -199,7 +199,7 @@ export const projects: Project[] = [
       "Reporting and audit trails",
     ],
     category: "fullstack",
-    github: "https://github.com/ErmiasGet/finance-file-management",
+    github: "https://github.com/ErmiasGet/finance-file-management.git",
     problemStatement:
       "The finance office at the university struggled with paper-based document management, leading to inefficiencies in workflow, document retrieval, and organization.",
     solution:
@@ -212,7 +212,7 @@ export const projects: Project[] = [
     ],
     architecture:
       "React frontend, Node.js backend API, PostgreSQL database for document metadata and user management.",
-    duration: "6 months",
+    duration: "4 months",
     role: "Software Developer Intern",
     lessonsLearned: [
       "Enterprise software development in a real organizational context",
@@ -231,13 +231,13 @@ export const projects: Project[] = [
     slug: "attendance-management",
     title: "Attendance Management System",
     description:
-      "Fingerprint attendance management system developed using the Frappe Framework.",
+      "Fingerprint attendance management system developed using Python",
     longDescription:
       "An attendance management system built using the Frappe Framework that integrates fingerprint biometric hardware for automated attendance tracking and management.",
     image: "/projects/attendance.svg",
     technologies: [
-      "Frappe Framework",
       "Python",
+      "Django",
       "MariaDB",
     ],
     features: [
@@ -250,7 +250,7 @@ export const projects: Project[] = [
       "Admin dashboard",
     ],
     category: "fullstack",
-    github: "https://github.com/ErmiasGet/attendance-management",
+    github: "https://github.com/ErmiasGet/Attendance-Management-System.git",
     problemStatement:
       "Manual attendance tracking was time-consuming, error-prone, and lacked reliable reporting capabilities for organizational management.",
     solution:
@@ -301,7 +301,7 @@ export const projects: Project[] = [
       "Responsive design",
     ],
     category: "fullstack",
-    github: "https://github.com/ErmiasGet/graduate-gallery",
+    github: "https://github.com/ErmiasGet/GC_GalleryArchive.git",
     problemStatement:
       "Graduating students need a centralized platform to showcase their profiles, achievements, and projects to potential employers and the academic community.",
     solution:
@@ -314,7 +314,7 @@ export const projects: Project[] = [
     ],
     architecture:
       "React SPA frontend, Node.js + Express.js REST API backend, MongoDB database for student profiles and gallery content.",
-    duration: "3 months",
+    duration: "<1 months",
     role: "Full Stack Developer",
     lessonsLearned: [
       "Building social and showcase platforms",
@@ -354,7 +354,7 @@ export const projects: Project[] = [
       "Responsive design",
     ],
     category: "fullstack",
-    github: "https://github.com/ErmiasGet/mini-social-media",
+    github: "https://github.com/ErmiasGet/CodeAlpha_miniSocialMediaApp.git",
     problemStatement:
       "Building a social networking platform from scratch to understand the core features and architecture patterns used in modern social media applications.",
     solution:
@@ -380,62 +380,62 @@ export const projects: Project[] = [
     tags: ["social", "real-time", "messaging", "fullstack"],
     featured: false,
     status: "completed",
-  },
-  {
-    id: "8",
-    slug: "personal-portfolio",
-    title: "Personal Portfolio",
-    description:
-      "Modern responsive portfolio showcasing professional journey, experience, projects, and technical expertise.",
-    longDescription:
-      "A modern, responsive portfolio website built with Next.js, TypeScript, Tailwind CSS, and Framer Motion. Features dark/light mode, animated sections, blog support, SEO optimization, and a command palette.",
-    image: "/projects/portfolio.svg",
-    technologies: [
-      "Next.js",
-      "TypeScript",
-      "Tailwind CSS",
-      "Framer Motion",
-      "React",
-    ],
-    features: [
-      "Dark and light mode",
-      "Smooth animations and transitions",
-      "Responsive design",
-      "SEO optimized",
-      "Command palette navigation",
-      "Blog system",
-      "Project case studies",
-      "Contact form",
-    ],
-    category: "frontend",
-    github: "https://github.com/ErmiasGet/portfolio",
-    liveUrl: "https://ermias-getahun.vercel.app",
-    problemStatement:
-      "Need a professional online presence that showcases technical skills, projects, and experience to attract potential clients and employers.",
-    solution:
-      "Built a premium portfolio with Next.js App Router, TypeScript for type safety, Tailwind CSS for styling, and Framer Motion for animations, deployed on Vercel.",
-    challenges: [
-      "Achieving high Lighthouse scores while maintaining rich animations",
-      "Building a flexible and performant dark/light mode system",
-      "Implementing smooth page transitions and scroll animations",
-      "Optimizing SEO across all pages",
-    ],
-    architecture:
-      "Next.js App Router with static generation, Tailwind CSS for styling, Framer Motion for animations, deployed on Vercel.",
-    duration: "2 months",
-    role: "Designer & Developer",
-    lessonsLearned: [
-      "Next.js App Router architecture and best practices",
-      "Performance optimization with Framer Motion",
-      "SEO optimization for single-page portfolio sites",
-      "Design system creation with Tailwind CSS",
-    ],
-    impact:
-      "Professional online presence showcasing full technical portfolio, projects, and experience.",
-    tags: ["portfolio", "animation", "frontend", "nextjs"],
-    featured: true,
-    status: "completed",
-  },
+  }
+//   {
+//     id: "8",
+//     slug: "personal-portfolio",
+//     title: "Personal Portfolio",
+//     description:
+//       "Modern responsive portfolio showcasing professional journey, experience, projects, and technical expertise.",
+//     longDescription:
+//       "A modern, responsive portfolio website built with Next.js, TypeScript, Tailwind CSS, and Framer Motion. Features dark/light mode, animated sections, blog support, SEO optimization, and a command palette.",
+//     image: "/projects/portfolio.svg",
+//     technologies: [
+//       "Next.js",
+//       "TypeScript",
+//       "Tailwind CSS",
+//       "Framer Motion",
+//       "React",
+//     ],
+//     features: [
+//       "Dark and light mode",
+//       "Smooth animations and transitions",
+//       "Responsive design",
+//       "SEO optimized",
+//       "Command palette navigation",
+//       "Blog system",
+//       "Project case studies",
+//       "Contact form",
+//     ],
+//     category: "frontend",
+//     github: "https://github.com/ErmiasGet/portfolio",
+//     liveUrl: "https://ermias-getahun.vercel.app",
+//     problemStatement:
+//       "Need a professional online presence that showcases technical skills, projects, and experience to attract potential clients and employers.",
+//     solution:
+//       "Built a premium portfolio with Next.js App Router, TypeScript for type safety, Tailwind CSS for styling, and Framer Motion for animations, deployed on Vercel.",
+//     challenges: [
+//       "Achieving high Lighthouse scores while maintaining rich animations",
+//       "Building a flexible and performant dark/light mode system",
+//       "Implementing smooth page transitions and scroll animations",
+//       "Optimizing SEO across all pages",
+//     ],
+//     architecture:
+//       "Next.js App Router with static generation, Tailwind CSS for styling, Framer Motion for animations, deployed on Vercel.",
+//     duration: "2 months",
+//     role: "Designer & Developer",
+//     lessonsLearned: [
+//       "Next.js App Router architecture and best practices",
+//       "Performance optimization with Framer Motion",
+//       "SEO optimization for single-page portfolio sites",
+//       "Design system creation with Tailwind CSS",
+//     ],
+//     impact:
+//       "Professional online presence showcasing full technical portfolio, projects, and experience.",
+//     tags: ["portfolio", "animation", "frontend", "nextjs"],
+//     featured: true,
+//     status: "completed",
+//   },
 ];
 
 export function getProjectBySlug(slug: string): Project | undefined {

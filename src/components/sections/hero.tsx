@@ -28,7 +28,7 @@ const floatingIcons = [
   { Icon: Globe, x: "5%", y: "45%", delay: 0.8 },
 ];
 
-const roles = ["Software Engineer", "Full Stack Developer", "Software Solution Designer"];
+const roles = ["Software Engineer", "Full Stack Developer", "Problem Solver"];
 const roleColors = ["text-primary", "text-accent", "text-primary-light"];
 
 export function Hero() {
@@ -76,7 +76,7 @@ export function Hero() {
             className="mb-6"
           >
             <span className="text-lg text-muted-foreground sm:text-xl">
-              Hi, I&apos;m
+              Hello, I&apos;m
             </span>
           </motion.div>
 
