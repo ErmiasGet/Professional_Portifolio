@@ -3,7 +3,21 @@ import { Resend } from "resend";
 
 export async function POST(request: NextRequest) {
   try {
-    const resend = new Resend(process.env.RESEND_API_KEY);
+    const apiKey = process.env.RESEND_API_KEY;
+    const contactEmail = process.env.CONTACT_EMAIL;
+
+    if (!apiKey || !contactEmail) {
+      console.error(
+        "Contact route: missing env variables.",
+        { hasResendKey: Boolean(apiKey), hasContactEmail: Boolean(contactEmail) }
+      );
+      return NextResponse.json(
+        { error: "Server is not configured to send messages." },
+        { status: 500 }
+      );
+    }
+
+    const resend = new Resend(apiKey);
     const body = await request.json();
     const { name, email, subject, message } = body;
 
@@ -13,7 +27,7 @@ export async function POST(request: NextRequest) {
 
     const { error } = await resend.emails.send({
       from: `Portfolio Contact <onboarding@resend.dev>`,
-      to: process.env.CONTACT_EMAIL!,
+      to: contactEmail,
       replyTo: email,
       subject: `Portfolio Contact: ${subject}`,
       html: `
@@ -27,11 +41,13 @@ export async function POST(request: NextRequest) {
     });
 
     if (error) {
+      console.error("Resend send error:", error);
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
     return NextResponse.json({ success: true });
-  } catch {
+  } catch (error) {
+    console.error("Contact route unexpected error:", error);
     return NextResponse.json({ error: "Something went wrong." }, { status: 500 });
   }
 }
