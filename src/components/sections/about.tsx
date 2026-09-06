@@ -18,7 +18,7 @@ import { StaggerGroup, StaggerItem } from "@/animations/stagger-group";
 
 const timelineItems = [
   {
-    year: "2017",
+    year: "2021",
     title: "Preparatory Education",
     description: "Completed preparatory education at Masha Preparatory School with strong academic performance.",
     icon: <Award className="h-5 w-5" />,
@@ -32,7 +32,7 @@ const timelineItems = [
   {
     year: "2023",
     title: "Independent Full Stack Developer",
-    description: "Started building professional software systems including rental platforms, healthcare SaaS, and tourism platforms.",
+    description: "Started building professional software systems including rental platforms,e-commerce systems, healthcare SaaS, and tourism platforms.",
     icon: <Code2 className="h-5 w-5" />,
   },
   {
@@ -43,8 +43,8 @@ const timelineItems = [
   },
   {
     year: "2026",
-    title: "Graduating with B.Sc.",
-    description: "Completing Software Engineering degree with extensive hands-on experience in full-stack development.",
+    title: "Graduated with B.Sc.",
+    description: "Completed Software Engineering degree with extensive hands-on experience in full-stack development.",
     icon: <Users className="h-5 w-5" />,
   },
 ];
