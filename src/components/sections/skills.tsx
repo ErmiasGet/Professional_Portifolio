@@ -1,145 +1,76 @@
 "use client";
 
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { Bolt, TrendingUp, Rocket, Dot } from "lucide-react";
 import { Container } from "@/components/ui/container";
 import { SectionHeading } from "@/components/ui/section-heading";
-import { GlowCard } from "@/components/ui/glow-card";
-import { Button } from "@/components/ui/button";
-import { ScrollReveal } from "@/animations/scroll-reveal";
 import { StaggerGroup, StaggerItem } from "@/animations/stagger-group";
-import { skills, getSkillsByCategory } from "@/data/skills";
-import { SKILL_CATEGORIES } from "@/constants";
-import { cn } from "@/lib/cn";
+import { skillGroups } from "@/content/skills";
+import { SECTIONS } from "@/content/sections";
+import type { SkillGroup } from "@/types";
 
-const categoryLabels: Record<string, string> = {
-  frontend: "Frontend",
-  backend: "Backend",
-  database: "Database",
-  desktop: "Desktop",
-  mobile: "Mobile",
-  devops: "DevOps",
-  languages: "Languages",
-  tools: "Tools",
-  engineering: "Software Engineering",
+const hotLabels = {
+  core: { icon: Bolt, accent: "border-primary/30 bg-primary/10 text-primary" },
+  strong: { icon: Rocket, accent: "border-accent/30 bg-accent/10 text-accent" },
+  working: { icon: TrendingUp, accent: "border-border bg-secondary/50 text-muted-foreground" },
 };
 
-const INITIAL_VISIBLE = 10;
+interface SkillsProps {
+  skillGroups?: SkillGroup[];
+  sectionsContent?: typeof SECTIONS;
+  index?: string;
+}
 
-export function Skills() {
-  const [activeCategory, setActiveCategory] = useState<string>("all");
-  const [showAll, setShowAll] = useState(false);
-
-  const filteredSkills =
-    activeCategory === "all" ? skills : getSkillsByCategory(activeCategory);
-
-  const visibleSkills = showAll
-    ? filteredSkills
-    : filteredSkills.slice(0, INITIAL_VISIBLE);
-  const hasMore = filteredSkills.length > INITIAL_VISIBLE;
-
-  const handleCategoryChange = (cat: string) => {
-    setActiveCategory(cat);
-    setShowAll(false);
-  };
-
+export function Skills({
+  skillGroups: groups = skillGroups,
+  sectionsContent = SECTIONS,
+  index = "03",
+}: SkillsProps) {
   return (
-    <section id="skills" className="relative py-20 sm:py-24 lg:py-32">
+    <section id="skills" className="relative py-20 sm:py-14 lg:py-14 bg-secondary/30">
       <Container>
         <SectionHeading
-          badge="Skills"
-          title="My Technical Toolkit"
-          subtitle="Technologies and tools I use to bring ideas to life."
+          badge={sectionsContent.skills.badge}
+          index={index}
+          title={sectionsContent.skills.title}
+          subtitle={sectionsContent.skills.subtitle}
         />
 
-        <ScrollReveal className="mb-12">
-          <div className="flex flex-wrap justify-center gap-2">
-            <button
-              onClick={() => handleCategoryChange("all")}
-              className={cn(
-                "rounded-full px-4 py-2 text-sm font-medium transition-all",
-                activeCategory === "all"
-                  ? "bg-primary text-primary-foreground shadow-lg shadow-primary/25"
-                  : "bg-secondary text-muted-foreground hover:text-foreground"
-              )}
-            >
-              All
-            </button>
-            {SKILL_CATEGORIES.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => handleCategoryChange(cat)}
-                className={cn(
-                  "rounded-full px-4 py-2 text-sm font-medium transition-all capitalize",
-                  activeCategory === cat
-                    ? "bg-primary text-primary-foreground shadow-lg shadow-primary/25"
-                    : "bg-secondary text-muted-foreground hover:text-foreground"
-                )}
-              >
-                {categoryLabels[cat] || cat}
-              </button>
-            ))}
-          </div>
-        </ScrollReveal>
-
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeCategory}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }}
-          >
-            <StaggerGroup className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" staggerDelay={0.05}>
-              {visibleSkills.map((skill) => (
-                <StaggerItem key={`${skill.name}-${skill.category}`}>
-                  <GlowCard className="p-4">
-                    <div className="flex items-center justify-between mb-3">
-                      <h4 className="font-medium">{skill.name}</h4>
-                      <span className="text-sm text-muted-foreground">{skill.level}%</span>
-                    </div>
-                    <div className="h-2 w-full overflow-hidden rounded-full bg-secondary">
-                      <motion.div
-                        initial={{ width: 0 }}
-                        animate={{ width: `${skill.level}%` }}
-                        transition={{ duration: 1, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                        className="h-full rounded-full bg-gradient-to-r from-primary to-accent"
-                      />
-                    </div>
-                    {skill.yearsOfExperience && (
-                      <p className="mt-2 text-xs text-muted-foreground">
-                        {skill.yearsOfExperience}+ years experience
-                      </p>
-                    )}
-                  </GlowCard>
-                </StaggerItem>
-              ))}
-            </StaggerGroup>
-
-            {hasMore && (
-              <ScrollReveal className="mt-8 text-center">
-                <Button
-                  variant="outline"
-                  size="lg"
-                  onClick={() => setShowAll((prev) => !prev)}
-                  className="group"
-                >
-                  {showAll ? (
-                    <>
-                      View Less <ChevronUp className="h-4 w-4 ml-1 transition-transform group-hover:-translate-y-0.5" />
-                    </>
-                  ) : (
-                    <>
-                      View All Skills ({filteredSkills.length - INITIAL_VISIBLE} more)
-                      <ChevronDown className="h-4 w-4 ml-1 transition-transform group-hover:translate-y-0.5" />
-                    </>
-                  )}
-                </Button>
-              </ScrollReveal>
-            )}
-          </motion.div>
-        </AnimatePresence>
+        <StaggerGroup className="grid gap-6 lg:grid-cols-3" staggerDelay={0.1}>
+          {groups.map((group) => {
+            const label = hotLabels[group.proficiency];
+            return (
+              <StaggerItem key={group.proficiency}>
+                <div className="flex h-full flex-col rounded-2xl border border-border/80 bg-card p-6 transition-colors duration-300 hover:border-primary/25">
+                  <div className="mb-1 flex items-center justify-between gap-2">
+                    <h3 className="text-lg font-semibold">{group.label}</h3>
+                    <span
+                      className={`inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-xs font-medium ${label.accent}`}
+                    >
+                      <label.icon className="h-3.5 w-3.5" />
+                      {group.proficiency === "core"
+                        ? "Core"
+                        : group.proficiency === "strong"
+                          ? "Strong"
+                          : "Working"}
+                    </span>
+                  </div>
+                  <p className="mb-4 text-sm text-muted-foreground">{group.description}</p>
+                  <div className="flex flex-wrap gap-2">
+                    {group.skills.map((skill) => (
+                      <span
+                        key={skill.name}
+                        className="inline-flex items-center gap-1 rounded-lg border border-border/70 bg-secondary/40 px-2.5 py-1.5 text-sm text-muted-foreground transition-colors hover:border-primary/40 hover:text-foreground"
+                      >
+                        <Dot className="h-3.5 w-3.5 text-primary/70" />
+                        {skill.name}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </StaggerItem>
+            );
+          })}
+        </StaggerGroup>
       </Container>
     </section>
   );

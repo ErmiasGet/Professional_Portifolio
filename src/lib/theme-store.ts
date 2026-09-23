@@ -22,8 +22,11 @@ export function getServerSnapshot() {
 }
 
 export function toggleThemeAction() {
-  const newDark = !document.documentElement.classList.contains("dark");
-  document.documentElement.classList.toggle("dark", newDark);
-  localStorage.setItem("theme", newDark ? "dark" : "light");
+  const isDark = !document.documentElement.classList.contains("dark");
+  const html = document.documentElement;
+  html.classList.add("theme-smooth");
+  html.classList.toggle("dark", isDark);
+  localStorage.setItem("theme", isDark ? "dark" : "light");
   emitThemeChange();
+  window.setTimeout(() => html.classList.remove("theme-smooth"), 320);
 }

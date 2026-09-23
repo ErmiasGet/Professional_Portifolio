@@ -1,0 +1,67 @@
+---
+title: "Designing RBAC for Business Applications"
+description: "Why permissions belong on the backend, how to model roles around real jobs, and the mistakes to avoid when adding RBAC to a business system."
+image: "/blog/prisma-orm-postgresql-guide.svg"
+category: "Engineering"
+tags: ["rbac", "security", "backend", "saas"]
+publishedAt: "2025-11-18"
+featured: true
+---
+
+# Designing RBAC for Business Applications
+
+Role-based access control sounds simple: "admins can do more than users." But when you actually build a business system, the details decide whether it is a safe product or a gateway to someone else's data.
+
+I have applied RBAC in several projects — a finance file management system, a health-system platform, and a multi-tenant accommodation management SaaS. These are the rules I now treat as non-negotiable.
+
+## Permissions belong on the backend
+
+The frontend hides what you cannot click, and that is fine for usability. It is **not** security. Someone with a script does not care that you hid a button.
+
+In every system I build:
+
+- The API validates authorization on **every route**, using the authenticated principal.
+- The frontend only decides what to render.
+- If the client sends extra roles in the payload, the server ignores them.
+
+A simple test you can run: log in as the least-privileged user, then call a privileged endpoint directly. If it responds, your RBAC is not actually enforced.
+
+## Model roles around real jobs
+
+Generic roles like "admin", "staff", "user" usually map badly onto a business. In a hospitality system, you have an owner, managers, receptionists, and the platform's system administrator — and what each may do differs. In a health system, you have doctors, nurses, and officers, and their data boundaries are legal, not just convenient.
+
+I model roles as the set of capabilities the job actually needs:
+
+- **Owner** — manage hotels, rooms and staff, approve subscription and billing, full reporting.
+- **Manager** — day-to-day hotel and room operations.
+- **Receptionist** — guest registration, check-in and check-out, payment recording.
+- **Super Admin / system owner** — manages the businesses on the platform, not their daily operations.
+
+When the roles match the org chart, asking "who should approve this?" has an obvious answer, and the client understands the system instead of guessing.
+
+## Scope every query, not just every button
+
+The most dangerous permission flaws are at the data level. A user might have "view reports" — but **which** reports? Their own file, their own tenant, their own region?
+
+The pattern I use:
+
+1. Extract the user and their scope from the session.
+2. Add the scope as a mandatory filter in the data-access layer.
+3. Return only what the principal may see.
+
+In the finance file management system, this is why each staff member sees only their own files and admins see everything — the rule is in the query path, not in the UI.
+
+## Represent state, not just access
+
+RBAC works even better when the system also tracks **what has happened**. In Beten Homes Rent, a rental request has a status and a history — waiting, approved, rejected, then contract. The person who approved and the moment they did it is stored. Customers trust a platform much more when decisions are visible and auditable.
+
+## Mistakes I try to avoid
+
+- Adding a role table with no idea which real person holds each role.
+- Letting a request body decide who the actor is.
+- Building permission checks that only exist in the frontend.
+- Changing access rules during development without revisiting the data-access layer.
+
+## The takeaway
+
+RBAC is not a checkbox feature. It should be designed from the data access upward, named after real jobs, and enforced where the code cannot be bypassed. When it is, the reward is security without ceremony — the system is safe to let real businesses use.

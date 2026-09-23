@@ -29,7 +29,7 @@ export function GlowCard({ children, className }: GlowCardProps) {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       className={cn(
-        "relative overflow-hidden rounded-2xl border border-border bg-card transition-all duration-300 hover:border-primary/30",
+        "relative overflow-hidden rounded-2xl border border-border/80 bg-card shadow-sm transition-all duration-300 hover:border-primary/30 hover:shadow-md",
         className
       )}
     >
@@ -37,7 +37,7 @@ export function GlowCard({ children, className }: GlowCardProps) {
         className="pointer-events-none absolute -inset-px rounded-2xl opacity-0 transition duration-300"
         style={{
           opacity,
-          background: `radial-gradient(600px circle at ${position.x}px ${position.y}px, hsl(var(--primary) / 0.1), transparent 40%)`,
+          background: `radial-gradient(600px circle at ${position.x}px ${position.y}px, hsl(var(--primary) / 0.08), transparent 40%)`,
         }}
       />
       <div className="relative z-10">{children}</div>

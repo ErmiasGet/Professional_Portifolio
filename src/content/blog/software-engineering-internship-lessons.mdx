@@ -1,0 +1,64 @@
+---
+title: "Lessons From My Software Engineering Internship"
+description: "What building finance and attendance systems at a university ICT directorate taught me about requirements, real users and enterprise software."
+image: "/blog/requirement-engineering-best-practices.svg"
+category: "Career"
+tags: ["internship", "career", "requirements", "enterprise"]
+publishedAt: "2025-08-22"
+featured: false
+---
+
+# Lessons From My Software Engineering Internship
+
+During my software engineering internship at a university ICT directorate, I built finance and attendance management systems used by real staff. It was my first taste of enterprise software — and the lessons were not about frameworks.
+
+## What I actually built
+
+- A **finance file management system** with **Admin and Staff** modules, where file access is restricted by role.
+- An **attendance management system** with role-based access, organized as separate Admin and Staff pages.
+
+Both were built as full-stack applications, with backend, frontend, and database, and deployed for real use. That alone — real users depending on your code — changes how seriously you take requirements.
+
+## The biggest lesson: requirements are the product
+
+When I started, I focused on code. The internship taught me that the code is the last 20 percent. The people using the system care about:
+
+- Which staff member may open which file — and who must never see it.
+- What happens when an attendance record is corrected, and who is allowed to do it.
+- How Admin and Staff pages differ, so nobody guesses where a feature lives.
+
+The role-based file boundaries in the finance system came from talking to the people who actually use it — not from my instinct about "standard" permissions.
+
+## Real users break your assumptions
+
+I learned this by watching staff work:
+
+- People did not think in rows of data; they thought in **tasks**: "I need February's file." So the UI had to lead with the task, not the table.
+- Users **mistrusted** vague statuses. "It is submitted" was not enough — they wanted to know who had it and when it moved.
+- On real data, typos and duplicates stopped being hypothetical. Validation that survived unit tests still needed to be kind to a tired staff member at the end of the day.
+
+That experience is one reason I now design every screen around a workflow rather than a CRUD list.
+
+## Working with a real team and real deployments
+
+The internship was also my first time shipping alongside colleagues with defined tasks, tracked progress, and deadlines that mattered to someone else. Two things made it work:
+
+1. **Clear task ownership** — everyone knew which module was theirs and what "done" meant.
+2. **Validate before you call it done** — walk through the workflow as the actual user before release.
+
+## How it changed my projects
+
+Later projects carry these choices with me:
+
+- In **Engida**, the accommodation management system, the workflow comes first: reservation → room assignment → check-in → check-out. The data model grew out of the workflow, not the other way around.
+- In **Beten Homes Rent**, the client insisted on role-based visibility so tenants always see their request status ("Waiting for Approval") — the same pattern I first built during the internship.
+- I now default to **role-scoped queries on the backend**, because a UI restriction is not a permission system.
+
+## Advice I would give my younger self
+
+- Interview the user before initializing the repo.
+- Treat every access rule as a data-layer rule, not a UI rule.
+- Ship something real users can touch as early as possible — that is the fastest way to learn what you actually built wrong.
+- Keep the task list honest and share it; momentum comes from visible progress.
+
+Internships are usually measured by what you add to a resume. Mine is the reason I design products around people and workflows, and it is why a good portion of my portfolio is business systems rather than demo apps.

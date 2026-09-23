@@ -1,0 +1,56 @@
+---
+title: "Building a Property Management Platform: Beten Homes Rent"
+description: "How one backend API serves an Electron desktop app and a React Native mobile app for rental management, payments and reporting."
+image: "/blog/beten-homes-rent.svg"
+category: "Full Stack"
+tags: ["electron", "react-native", "postgresql", "prisma"]
+publishedAt: "2025-12-10"
+featured: true
+---
+
+# Building a Property Management Platform: Beten Homes Rent
+
+Beten Homes Rent is a rental management project for a real property business. What made it interesting from a technical angle: **one backend API** serves an **Electron desktop app** (for the office) and a **React Native mobile app** (for staff on the move), with the same business rules in both places.
+
+This post covers how we split the work between the API and the two clients, and the decisions behind the data model.
+
+## Why desktop and mobile at all
+
+The property work happens in two places. The office team spends its day reviewing payments and approving rental requests — work that suits a desktop app with a proper screen. Staff on the ground, showing rooms to tenants, is better suited to a phone.
+
+A shared API lets us build both without duplicating the rules: validation, tenant/renter handling, payments and reporting live in one place, and both clients simply consume the same contracts.
+
+## The API as the single source of truth
+
+The backend is a **Node.js + Express** application with **Prisma** over **PostgreSQL**. Key modules:
+
+- **Authentication and roles** — owner (full control), manager (operations), accountant (finances), tenant (own data only).
+- **Room and property management** — buildings, rooms, monthly availability.
+- **Rent requests** — the core flow: a tenant requests a room for a period; another tenant for the same room can submit a request for the corresponding time frame before the owner approves.
+- **Approvals** — only the owner can approve or reject. Everyone else sees the status (**Waiting for Approval**) and its history.
+- **Payments and contracts** — monthly payments, late/on-time tracking, and the lease document.
+- **Reports** — totals, late lists, monthly summaries.
+
+One rule that mattered a lot: a person can join more than one request, so the backend validates requested dates against already-joined timelines before accepting anyone. Without that check, one person could quietly occupy two rooms for the same month.
+
+## What the desktop and mobile apps each handle
+
+The **Electron app** is the management console: rooms grid, request inbox, approvals, contracts, payment entry and reporting. Because it ships as a real app, we could keep a working session and a comfortable dashboard without browser constraints.
+
+The **React Native app** is the on-the-ground tool: browse available rooms, open detail with photos, join a rent request, see request status. It reuses the same API endpoints, so it never has to reimplement a rule.
+
+## Handling real uploads
+
+Rooms are shown with **real photos** uploaded by the owner, and the summary of an apartment is rendered with these images. Storage is straightforward: uploaded files go to the server, and clients render them from the stored paths. It is not glamorous, but it is what people actually need to see who they might be sharing a building with.
+
+## What I would do differently next time
+
+- The API could grow a **webhooks or event stream** so the desktop app updates payments and request status live instead of polling.
+- Report generation belongs on its own queue for large datasets.
+- Photo uploads should be resized server-side; the mobile app sometimes sends heavy images over slow networks.
+
+## Lessons worth keeping
+
+- If two clients must share logic, move that logic to the API and keep clients thin. The moment a business rule lives in two places, they drift apart.
+- Enforce business rules **before** writing the UI for them. The date-conflict validation is far easier to reason about in one place.
+- Weekly meetings and clearly defined tasks kept this project moving with an offsite team. A shared platform for tasks made the difference between confusion and clarity.

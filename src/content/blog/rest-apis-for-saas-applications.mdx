@@ -1,0 +1,64 @@
+---
+title: "Designing REST APIs for SaaS Applications"
+description: "Practical decisions for SaaS backends: resource design, tenant context, validation, authorization and structuring an API into feature modules."
+image: "/blog/react-native-expo-mobile-apps.svg"
+category: "Backend"
+tags: ["rest", "api", "nestjs", "backend"]
+publishedAt: "2025-07-14"
+featured: false
+---
+
+# Designing REST APIs for SaaS Applications
+
+Most of what I build is not a single-page demo — it is a multi-tenant application with login, roles, reports, and real business data. In that world, you have no business logic buried in route handlers. The API design decides whether adding a feature is a two-hour change or a two-week archaeology project.
+
+These are the practical decisions I keep making, mostly with **NestJS + TypeScript**.
+
+## Treat a SaaS API as a set of feature modules
+
+The fastest way to destroy a SaaS API is to grow it as one long list of endpoints in a few giant files. On the Engida backend, each real feature owns its module:
+
+- Authentication and users
+- Tenants (the businesses the platform runs)
+- Hotels and rooms
+- Reservations and stays
+- Reception and check-in / check-out
+- Payments
+- Subscriptions
+- Reports
+
+Each module holds its controllers, its validation rules, and its access control. When the stay flow changes, I know exactly which module to touch — and the report module is never collateral damage.
+
+## Resource design follows the real workflow
+
+I design resources around what the business actually does, not around database tables. In Beten Homes Rent, the core resource is not "rooms" — it is the **rent request** flowing through states (waiting, approved, rejected) and ending in a contract. The endpoints follow that: create a request, join a request, approve or reject, generate the contract.
+
+The rule: if a concept has a status and history in the real business, it is probably a first-class resource, with an explicit transition endpoint rather than a generic PATCH.
+
+## Tenant context is never in the payload
+
+In a multi-tenant system, `tenantId` must come from the authenticated session, not from the request body. If the client could choose the tenant, a well-crafted request would quietly cross data boundaries. Every repository call receives the tenant id from the request context, and queries are scoped by it unconditionally.
+
+## Validation early, authorization always
+
+Every input goes through typed validation **before** it reaches the service. My rule set:
+
+- Use a schema-based validator (with **zod**) so the route, the types, and the consumer all agree on the shape.
+- Authorize on every route, from the principal — never from the body.
+- Return consistent error shapes (code, message, field), because clients need to render them.
+
+## Pagination, filtering, and focused responses
+
+Dashboards fetching "everything" are a performance and UX trap. The API defaults to:
+
+- `pages` with configurable `size`, returning counts and totals alongside the rows — reports are built from real numbers, not approximations.
+- Server-side filtering for the fields users actually filter by (status, date range, unit).
+- Lean response DTOs: a list item is not the full record. Contract documents download as one resource; the summary stays small.
+
+## What I learned the hard way
+
+- **Resource names should be field-tested.** I once named something that made sense in code but confused the client user. Matching the client's vocabulary ("reservation", "check-in") fixes usability before the UI exists.
+- **Do not let the frontend shape the API.** When the UI needs a shape, add a view or a DTO — do not distort the resource.
+- **Keep a file structure that tells you where feature logic lives.** When the team grows, "open the module, find the route" must be a one-step answer.
+
+A well-designed REST API quietly makes a whole product better: the mobile app, the desktop app, and the dashboard all stay consistent because they share one schema, enforced rules, and one place where business logic lives.

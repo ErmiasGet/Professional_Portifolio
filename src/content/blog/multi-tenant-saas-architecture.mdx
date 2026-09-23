@@ -1,0 +1,68 @@
+---
+title: "How I Designed a Multi-Tenant SaaS Architecture"
+description: "The design decisions behind Engida: isolating business data, enforcing tenant context and applying role-based access across a multi-tenant accommodation management platform."
+image: "/blog/multi-platform-architecture.svg"
+category: "Engineering"
+tags: ["saas", "multi-tenant", "architecture", "nestjs"]
+publishedAt: "2026-01-20"
+featured: true
+---
+
+# How I Designed a Multi-Tenant SaaS Architecture
+
+When I started building **Engida**, a multi-tenant accommodation management platform for hospitality businesses, I had one thing to protect from day one: every business's data. The system had to enforce boundaries even when the developer (me) made a mistake in the code.
+
+This post walks through the decisions I made before writing much application logic: the tenant model, the way every query stays inside its tenant, and how role-based access plugs into the platform.
+
+## Understanding the actual workflow first
+
+Before architecture, I mapped how a hotel or guest-house actually works:
+
+- A guest asks reception for a room — in person, by phone, or through a recorded reservation.
+- Reception checks room availability, registers the guest and assigns a room.
+- The stay runs through **check-in** and later **check-out**, with payments recorded along the way.
+
+This is the core loop. Everything else — the dashboard, the reports, the subscription — serves that loop. So the data model had to reflect it exactly: a reservation, a stay, and a payment are all tied to a specific room and a specific period.
+
+The pattern I used is **relational state per room per day**. Every room in the property has a state (available, occupied, reserved, maintenance) for each day. Two bookings can't both claim the same deluxe room for the same night.
+
+## Isolating tenants by design
+
+Engida is a single application that can serve several hospitality businesses. I did not want one business to ever see another's data. The rules I applied:
+
+1. **A tenant key on every row.** Every table that holds business data has a `tenant_id`, and it is set from the authenticated context — never from the client.
+2. **Every query is tenant-scoped.** The repository layer takes the tenant id from the session and applies it as a mandatory filter. There is no "list all rooms" query that ignores the tenant.
+3. **The API never trusts the body.** Tenant context comes from the authenticated principal, not from payload fields.
+
+This means that even if a route handler forgets to filter, the data it can reach is limited to the caller's own tenant.
+
+## Roles, not just "logged in"
+
+A hospitality business has several kinds of users: the owner, managers, and front-desk (**reception**) staff. A receptionist should never be able to change pricing or approve a business subscription, and a manager should not see another role's financial settings.
+
+I modeled permissions around real jobs rather than generic names like "admin" or "staff":
+
+- **Super Admin / System Owner** — platform-level access: manages the businesses (tenants) running on the platform.
+- **Business Owner** — full access for one business: hotels, rooms, staff, revenue reports, subscription.
+- **Receptionist** — daily front-desk work: guest registration, check-in, check-out and payment recording.
+
+Permissions are enforced on the backend for every route. The frontend hides buttons a user cannot use, but the API is the source of truth.
+
+## What the architecture diagram looks like
+
+A simplified view of the system:
+
+- **Frontend** — Next.js (web) with an API module layer.
+- **API** — feature modules (auth, tenants, hotels, rooms, reception, payments, subscriptions, reports) with validation and authorization middleware.
+- **Data** — PostgreSQL with tenant-scoped tables and relational state per room per day.
+
+Each feature module owns its routes, its validation, and its access rules. Reports aggregate only within the tenant.
+
+## What I learned
+
+- Tenant isolation is cheaper to enforce when it is in the **data-access layer** from the start, not bolted on after reports and dashboards exist.
+- Keep `tenant_id` out of the request body. Derive it from the authenticated session and reject inconsistencies loudly.
+- Role names should match the jobs real people do in the business, or the next developer (and the client) will not know what a role actually allows.
+- A complex workflow like reservation → check-in → check-out is far easier to get right when the state machine is explicit per room per day.
+
+The system is still being developed, and I expect the state machine to evolve, but the boundaries around data and permissions should not need to change.

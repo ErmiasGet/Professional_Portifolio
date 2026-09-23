@@ -20,13 +20,13 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           id={id}
           ref={ref}
           className={cn(
-            "flex h-11 w-full rounded-xl border border-input bg-card px-4 py-2 text-sm text-foreground ring-offset-background transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
-            error && "border-destructive focus-visible:ring-destructive",
+            "flex h-11 w-full rounded-xl border border-input bg-background px-4 py-2 text-sm text-foreground shadow-[var(--s-shadow-xs)] ring-offset-background transition-colors placeholder:text-muted-foreground/70 hover:border-border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40 focus-visible:border-ring focus-visible:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-50",
+            error && "border-destructive/70 focus-visible:ring-destructive/40 focus-visible:border-destructive",
             className
           )}
           {...props}
         />
-        {error && <p className="text-sm text-destructive">{error}</p>}
+        {error && <p className="text-xs text-destructive">{error}</p>}
       </div>
     );
   }

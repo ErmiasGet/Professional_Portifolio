@@ -9,12 +9,12 @@ interface AnimatedBackgroundProps {
 
 export function AnimatedBackground({ className, variant = "gradient" }: AnimatedBackgroundProps) {
   return (
-    <div className={cn("pointer-events-none absolute inset-0 overflow-hidden", className)}>
+    <div aria-hidden="true" className={cn("pointer-events-none absolute inset-0 overflow-hidden", className)}>
       {variant === "gradient" && (
         <>
-          <div className="absolute -top-1/4 -right-1/4 h-[600px] w-[600px] rounded-full bg-primary/5 blur-3xl animate-pulse" />
-          <div className="absolute -bottom-1/4 -left-1/4 h-[600px] w-[600px] rounded-full bg-accent/5 blur-3xl animate-pulse" style={{ animationDelay: "1s" }} />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[400px] w-[400px] rounded-full bg-primary/3 blur-3xl animate-pulse" style={{ animationDelay: "2s" }} />
+          <div className="absolute -top-1/4 right-[-15%] h-[34rem] w-[34rem] rounded-full bg-primary/[0.05] blur-3xl dark:bg-primary/[0.06]" />
+          <div className="absolute -bottom-1/3 left-[-12%] h-[32rem] w-[32rem] rounded-full bg-accent/[0.05] blur-3xl dark:bg-accent/[0.05]" />
+          <div className="absolute top-1/2 left-1/2 h-[26rem] w-[26rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/[0.02] blur-3xl dark:bg-primary/[0.03]" />
         </>
       )}
       {variant === "dots" && (

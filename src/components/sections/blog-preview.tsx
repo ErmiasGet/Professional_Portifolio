@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, Clock, Calendar } from "lucide-react";
@@ -10,22 +8,27 @@ import { GlowCard } from "@/components/ui/glow-card";
 import { Button } from "@/components/ui/button";
 import { ScrollReveal } from "@/animations/scroll-reveal";
 import { StaggerGroup, StaggerItem } from "@/animations/stagger-group";
-import { blogPosts } from "@/data/blog";
+import { toBlogPostPreview } from "@/lib/blog";
+import { getBlogPosts } from "@/lib/data/public";
+import { SECTIONS } from "@/content/sections";
 import { formatDate } from "@/utils";
 
-export function BlogPreview() {
+export async function BlogPreview({ index = "11" }: { index?: string } = {}) {
+  const posts = (await getBlogPosts()).slice(0, 3).map(toBlogPostPreview);
+
   return (
     <section id="blog" className="relative py-20 sm:py-24 lg:py-32 bg-secondary/30">
       <Container>
         <SectionHeading
-          badge="Blog"
-          title="Latest Articles"
-          subtitle="Thoughts, tutorials, and insights from my development journey."
+          badge={SECTIONS.blog.badge}
+          index={index}
+          title={SECTIONS.blog.title}
+          subtitle={SECTIONS.blog.subtitle}
         />
 
         <StaggerGroup className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3" staggerDelay={0.1}>
-          {blogPosts.slice(0, 3).map((post) => (
-            <StaggerItem key={post.id}>
+          {posts.map((post) => (
+            <StaggerItem key={post.slug}>
               <Link href={`/blog/${post.slug}`}>
                 <GlowCard className="group overflow-hidden h-full flex flex-col">
                   <div className="relative aspect-[16/9] bg-gradient-to-br from-primary/10 to-accent/10 overflow-hidden">
@@ -49,29 +52,35 @@ export function BlogPreview() {
                     )}
                   </div>
                   <div className="p-6 flex flex-col flex-1">
-                    <div className="mb-3 flex items-center gap-3 text-xs text-muted-foreground">
-                      <span className="flex items-center gap-1">
-                        <Calendar className="h-3 w-3" />
-                        {formatDate(post.publishedAt)}
-                      </span>
-                      <span className="flex items-center gap-1">
-                        <Clock className="h-3 w-3" />
-                        {post.readingTime} min read
-                      </span>
-                    </div>
-                    <Badge variant="secondary" className="mb-3 w-fit text-xs">{post.category}</Badge>
-                    <h3 className="mb-2 text-lg font-semibold group-hover:text-primary transition-colors line-clamp-2">
-                      {post.title}
-                    </h3>
-                    <p className="text-sm text-muted-foreground leading-relaxed flex-1 line-clamp-3">
-                      {post.description}
-                    </p>
-                    <div className="mt-4 flex flex-wrap gap-1.5">
+                  <div className="mb-3 flex items-center gap-3 text-xs text-muted-foreground">
+                    <span className="flex items-center gap-1">
+                      <Calendar className="h-3 w-3" />
+                      {formatDate(post.publishedAt)}
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <Clock className="h-3 w-3" />
+                      {post.readingTime} min read
+                    </span>
+                  </div>
+                  <Badge variant="secondary" className="mb-3 w-fit text-xs">{post.category}</Badge>
+                  <h3 className="mb-2 text-lg font-semibold group-hover:text-primary transition-colors line-clamp-2">
+                    {post.title}
+                  </h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed flex-1 line-clamp-3">
+                    {post.description}
+                  </p>
+                  <div className="mt-4 flex flex-wrap justify-between gap-3">
+                    <div className="flex flex-wrap gap-1.5">
                       {post.tags.slice(0, 3).map((tag) => (
                         <Badge key={tag} variant="outline" className="text-xs">#{tag}</Badge>
                       ))}
                     </div>
+                    <span className="inline-flex items-center gap-1 text-sm font-medium text-primary">
+                      Read article
+                      <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" />
+                    </span>
                   </div>
+                </div>
                 </GlowCard>
               </Link>
             </StaggerItem>

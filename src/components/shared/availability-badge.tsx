@@ -1,22 +1,36 @@
 import { cn } from "@/lib/cn";
+import { AVAILABILITY_TONE_CLASSES, getAvailability } from "@/lib/availability";
+import type { Availability } from "@/types";
 
 interface AvailabilityBadgeProps {
   className?: string;
+  availability?: Availability;
 }
 
-export function AvailabilityBadge({ className }: AvailabilityBadgeProps) {
+export function AvailabilityBadge({ className, availability }: AvailabilityBadgeProps) {
+  const resolved = getAvailability(availability);
+  const tone = AVAILABILITY_TONE_CLASSES[resolved.tone];
+
   return (
     <div
       className={cn(
-        "inline-flex items-center gap-2 rounded-full border border-success/20 bg-success/10 px-4 py-1.5 text-sm font-medium text-success",
+        "inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-sm font-medium",
+        tone.border,
+        tone.bg,
+        tone.text,
         className
       )}
     >
       <span className="relative flex h-2 w-2">
-        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-success opacity-75" />
-        <span className="relative inline-flex h-2 w-2 rounded-full bg-success" />
+        <span
+          className={cn(
+            "absolute inline-flex h-full w-full animate-ping rounded-full opacity-75",
+            tone.dot
+          )}
+        />
+        <span className={cn("relative inline-flex h-2 w-2 rounded-full", tone.dot)} />
       </span>
-      Available for Freelance, Remote &amp; Full-Time
+      {resolved.label}
     </div>
   );
 }

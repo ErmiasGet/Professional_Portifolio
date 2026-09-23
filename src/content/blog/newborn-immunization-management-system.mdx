@@ -1,0 +1,53 @@
+---
+title: "Building a Newborn Immunization Management System"
+description: "Designing E-Immunize Ethiopia: schedule generation, the health-system hierarchy, missed-dose follow-up and designing for unreliable connectivity."
+image: "/blog/spring-boot-react-healthcare.svg"
+category: "Healthcare"
+tags: ["healthcare", "react", "nodejs", "mongodb"]
+publishedAt: "2025-10-05"
+featured: true
+---
+
+# Building a Newborn Immunization Management System
+
+The project I am most proud to have contributed to is a **newborn immunization management prototype** for a health-sector context in Ethiopia. It is the kind of system that matters beyond screens: missed doses in remote areas are not a UX problem — they are a health problem.
+
+Here is how I approached it, and what the prototype taught me about building software for constraint-rich environments.
+
+## The domain shapes everything
+
+The system targets a network of health centers across **regions, zones and woredas (districts)**, each with health posts and health workers. The users are real officers with specific roles:
+
+- **Region/zone/zonal-level officers** can add, update, view, and export health data.
+- **Health-center-level users** manage the day-to-day records for their facility.
+- **Woreda officers** can view immunization and pregnancy follow-up data.
+
+That hierarchy means authorization is not "user vs admin" — it is about **which unit the user belongs to** and what data they may touch. A zone officer should not edit another zone's records.
+
+## Automatic schedule generation
+
+The most interesting piece is generating an immunization schedule for each newborn from their birth date. Ethiopia's expanded program on immunization has a known sequence of doses, and the system computes the due dates for each one automatically instead of relying on manually typed entries.
+
+Once a dose is recorded as given, the schedule updates and the next due date is recalculated. This removes a whole class of human error that is easy to make in busy facilities that handle dozens of newborns.
+
+## Designing for unreliable connectivity
+
+Much of the target area has poor or intermittent connectivity. Two decisions mattered here:
+
+1. **A short stack that is easy to run and fix locally.** The prototype uses a **Node.js + React** stack with **MongoDB**, chosen to keep the system light to deploy and maintain in facilities without heavy infrastructure.
+2. **Records-first thinking.** The reliable unit of work is a completed immunization record, not a network round trip. Where connectivity allows, data syncs up the hierarchy; when it is offline, the local record still means the child got their dose on time.
+
+## Missed-dose follow-up
+
+A newborn who misses a scheduled dose should not quietly fall out of the system. The prototype includes follow-up logic: when a dose is past due, the responsible health center sees a list of children to follow up on, so the facility can act before a delay compounds.
+
+A real system in this space would also benefit from SMS-based reminders — I deliberately note this as a next step rather than claiming it exists, because building it honestly means not overstating what the prototype does.
+
+## What building it taught me
+
+- **Maintainable and especially runnable beats clever.** In constrained settings, the codebase that can be installed and updated by a local team is the one that survives.
+- **Roles must mirror the government/health hierarchy**, with authorization tied to organizational units, not generic levels.
+- **Schedule generation is security for the child.** Automating due dates turns a manual, error-prone list into a dependable workflow.
+- **Plan for the offline case first**; the connected case takes care of itself.
+
+This project is a prototype at this point. Building it taught me to treat constraint — connectivity, hardware, hierarchy — as a feature requirement rather than an afterthought.

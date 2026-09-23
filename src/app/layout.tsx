@@ -1,10 +1,8 @@
 import type { Metadata } from "next";
 import Script from "next/script";
+import { MotionConfig } from "framer-motion";
 import { Geist, Geist_Mono } from "next/font/google";
-import { Navbar } from "@/components/layout/navbar";
-import { Footer } from "@/components/layout/footer";
-import { ScrollProgress } from "@/components/layout/scroll-progress";
-import { SITE_CONFIG } from "@/constants";
+import { SITE_CONFIG } from "@/content/site";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -24,29 +22,13 @@ export const metadata: Metadata = {
   },
   description: SITE_CONFIG.description,
   metadataBase: new URL(SITE_CONFIG.url),
-  authors: [{ name: SITE_CONFIG.name }],
+  alternates: {
+    canonical: "/",
+  },
+  authors: [{ name: SITE_CONFIG.name, url: SITE_CONFIG.social.github }],
   creator: SITE_CONFIG.name,
-  keywords: [
-    "Software Engineer",
-    "Full Stack Developer",
-    "React",
-    "Next.js",
-    "Node.js",
-    "Express.js",
-    "Spring Boot",
-    "Electron",
-    "React Native",
-    "Expo",
-    "PostgreSQL",
-    "MongoDB",
-    "Prisma ORM",
-    "Docker",
-    "JavaScript",
-    "TypeScript",
-    "Portfolio",
-    "Ethiopia",
-    "Ermias Getahun",
-  ],
+  publisher: SITE_CONFIG.name,
+  keywords: SITE_CONFIG.keywords,
   openGraph: {
     type: "website",
     locale: "en_US",
@@ -59,7 +41,7 @@ export const metadata: Metadata = {
         url: `${SITE_CONFIG.url}/og-image.svg`,
         width: 1200,
         height: 630,
-        alt: SITE_CONFIG.name,
+        alt: `${SITE_CONFIG.name} — Software Engineer & Full-Stack Developer`,
       },
     ],
   },
@@ -83,7 +65,7 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: "/favicon.svg",
-    other: [{ rel: "icon", url: "/og-image.svg", type: "image/svg+xml" }],
+    apple: "/favicon.svg",
   },
 };
 
@@ -97,6 +79,37 @@ const themeScript = `
     } catch(e) {}
   })();
 `;
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: SITE_CONFIG.name,
+  jobTitle: "Software Engineer & Full-Stack Developer",
+  url: SITE_CONFIG.url,
+  email: `mailto:${SITE_CONFIG.email}`,
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Addis Ababa",
+    addressCountry: "ET",
+  },
+  sameAs: [
+    SITE_CONFIG.social.github,
+    SITE_CONFIG.social.linkedin,
+    SITE_CONFIG.social.twitter,
+    SITE_CONFIG.social.telegram,
+  ],
+  knowsAbout: [
+    "React",
+    "Next.js",
+    "Node.js",
+    "NestJS",
+    "TypeScript",
+    "PostgreSQL",
+    "MongoDB",
+    "SaaS Architecture",
+    "Business Systems",
+  ],
+};
 
 export default function RootLayout({
   children,
@@ -115,10 +128,12 @@ export default function RootLayout({
           strategy="beforeInteractive"
           dangerouslySetInnerHTML={{ __html: themeScript }}
         />
-        <ScrollProgress />
-        <Navbar />
-        <main className="flex-1">{children}</main>
-        <Footer />
+        <Script
+          id="json-ld"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+        <MotionConfig reducedMotion="user">{children}</MotionConfig>
       </body>
     </html>
   );

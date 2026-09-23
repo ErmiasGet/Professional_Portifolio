@@ -1,181 +1,199 @@
 "use client";
 
-import { motion } from "framer-motion";
-import {
-  ArrowRight,
-  Download,
-  Code2,
-  Palette,
-  Database,
-  Server,
-  Smartphone,
-  Globe,
-} from "lucide-react";
+import { motion, useMotionValue, useSpring, useTransform, useReducedMotion } from "framer-motion";
+import { ArrowRight, Download, MessageCircle, GraduationCap } from "lucide-react";
 import Link from "next/link";
 import { Container } from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
 import { AvailabilityBadge } from "@/components/shared/availability-badge";
 import { SocialLinks } from "@/components/shared/social-links";
 import { AnimatedBackground } from "@/components/ui/animated-background";
-import { SITE_CONFIG } from "@/constants";
+import { SmartCodeBackground } from "@/components/ui/smart-code-background";
+import { HeroVisual } from "./hero-visual";
+import { PROFILE } from "@/content/profile";
+import { SOCIAL_LINKS } from "@/content/site";
+import type { Availability } from "@/types";
 
-const floatingIcons = [
-  { Icon: Code2, x: "10%", y: "20%", delay: 0 },
-  { Icon: Palette, x: "85%", y: "15%", delay: 0.5 },
-  { Icon: Database, x: "75%", y: "70%", delay: 1 },
-  { Icon: Server, x: "15%", y: "75%", delay: 1.5 },
-  { Icon: Smartphone, x: "90%", y: "45%", delay: 2 },
-  { Icon: Globe, x: "5%", y: "45%", delay: 0.8 },
-];
+interface HeroProps {
+  profile?: typeof PROFILE;
+  socials?: typeof SOCIAL_LINKS;
+  availability?: Availability;
+}
 
-const roles = ["Software Engineer", "Full Stack Developer", "Problem Solver"];
-const roleColors = ["text-primary", "text-accent", "text-primary-light"];
+export function Hero({
+  profile = PROFILE,
+  socials = SOCIAL_LINKS,
+  availability = profile.availability,
+}: HeroProps) {
+  const prefersReducedMotion = useReducedMotion();
+  const credentials = profile.credentials;
 
-export function Hero() {
+  const pointerX = useMotionValue(0);
+  const pointerY = useMotionValue(0);
+  const smoothX = useSpring(pointerX, { stiffness: 55, damping: 18, mass: 0.9 });
+  const smoothY = useSpring(pointerY, { stiffness: 55, damping: 18, mass: 0.9 });
+
+  const bgX = useTransform(smoothX, [-0.5, 0.5], [26, -26]);
+  const bgY = useTransform(smoothY, [-0.5, 0.5], [20, -20]);
+  const visualX = useTransform(smoothX, [-0.5, 0.5], [-24, 24]);
+  const visualY = useTransform(smoothY, [-0.5, 0.5], [-16, 16]);
+  const rotateX = useTransform(smoothY, [-0.5, 0.5], [8, -8]);
+  const rotateY = useTransform(smoothX, [-0.5, 0.5], [-10, 10]);
+
+  const handlePointerMove = (event: React.MouseEvent<HTMLElement>) => {
+    if (prefersReducedMotion) return;
+    const rect = event.currentTarget.getBoundingClientRect();
+    pointerX.set((event.clientX - rect.left) / rect.width - 0.5);
+    pointerY.set((event.clientY - rect.top) / rect.height - 0.5);
+  };
+
+  const handlePointerLeave = () => {
+    pointerX.set(0);
+    pointerY.set(0);
+  };
+
   return (
-    <section id="hero" className="relative min-h-screen flex items-center overflow-hidden">
-      <AnimatedBackground variant="gradient" />
-      <AnimatedBackground variant="grid" />
+    <section
+      id="home"
+      onMouseMove={handlePointerMove}
+      onMouseLeave={handlePointerLeave}
+      className="relative flex min-h-screen items-center overflow-hidden"
+    >
+      <motion.div
+        aria-hidden="true"
+        style={{ x: bgX, y: bgY }}
+        className="pointer-events-none absolute inset-0"
+      >
+        <AnimatedBackground variant="gradient" />
+        <SmartCodeBackground />
+        <AnimatedBackground variant="grid" />
+      </motion.div>
 
-      {floatingIcons.map(({ Icon, x, y, delay }, i) => (
-        <motion.div
-          key={i}
-          className="absolute text-primary/10 dark:text-primary/5"
-          style={{ left: x, top: y }}
-          initial={{ opacity: 0, scale: 0 }}
-          animate={{
-            opacity: 1,
-            scale: 1,
-            y: [0, -15, 0],
-          }}
-          transition={{
-            opacity: { delay: delay + 1, duration: 0.6 },
-            scale: { delay: delay + 1, duration: 0.6 },
-            y: { delay: delay + 1, duration: 5, repeat: Infinity, ease: "easeInOut" },
-          }}
-        >
-          <Icon className="h-8 w-8 sm:h-12 sm:w-12 lg:h-16 lg:w-16" />
-        </motion.div>
-      ))}
+      <Container className="relative z-10 pt-28 pb-16 sm:pt-32 lg:py-32">
+        <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+          <div className="text-center lg:text-left">
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="mb-6 flex justify-center lg:justify-start"
+            >
+              <AvailabilityBadge availability={availability} />
+            </motion.div>
 
-      <Container className="relative z-10 py-32">
-        <div className="mx-auto max-w-4xl text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="mb-6"
-          >
-            <AvailabilityBadge />
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="mb-6"
-          >
-            <span className="text-lg text-muted-foreground sm:text-xl">
-              Hello, I&apos;m
-            </span>
-          </motion.div>
-
-          <motion.h1
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl"
-          >
-            <span className="gradient-text">{SITE_CONFIG.name}</span>
-          </motion.h1>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.7 }}
-            className="mt-4 flex flex-wrap justify-center gap-2"
-          >
-            {roles.map((role, i) => (
+            <motion.p
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="mb-5 font-mono text-sm uppercase tracking-[0.18em] text-muted-foreground/75 sm:text-sm"
+            >
               <span
-                key={role}
-                className={`text-lg font-medium sm:text-xl ${roleColors[i]}`}
+                className="mr-2 inline-block h-1.5 w-1.5 rounded-full bg-gradient-to-r from-primary to-accent align-middle"
+                aria-hidden="true"
+              />
+              Hello, I&apos;m{" "}
+              <span className="font-semibold normal-case tracking-normal text-foreground">{profile.name}</span>
+            </motion.p>
+
+            <motion.h1
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+              className="text-balance text-[2rem] font-bold leading-[1.12] tracking-tight sm:text-4xl sm:leading-[1.1] lg:text-5xl xl:text-[3.5rem] xl:leading-[1.06]"
+            >
+              {profile.headline.before}
+              <span className="gradient-text">{profile.headline.highlight}</span>
+              {profile.headline.after}
+            </motion.h1>
+
+            <motion.p
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.35 }}
+              className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg lg:mx-0"
+            >
+              {profile.heroSubtitle}
+            </motion.p>
+
+            <motion.ul
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.45 }}
+              className="mx-auto mt-6 flex max-w-xl flex-wrap justify-center gap-2 lg:mx-0 lg:justify-start"
+              aria-label="Credentials"
+            >
+              {credentials.map((credential, i) => (
+                <li
+                  key={credential}
+                  className="inline-flex items-center gap-1.5 rounded-full border border-border/70 bg-background/70 px-3 py-1.5 text-xs font-medium text-muted-foreground sm:text-sm"
+                >
+                  {i === 0 && <GraduationCap className="h-3.5 w-3.5 text-primary" />}
+                  {credential}
+                </li>
+              ))}
+            </motion.ul>
+
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.55 }}
+              className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:flex-wrap sm:justify-center lg:justify-start"
+            >
+              <Link href="#projects">
+                <Button size="lg" className="group w-full sm:w-auto">
+                  View My Work
+                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </Button>
+              </Link>
+              <a
+                href={profile.resumeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full sm:w-auto"
               >
-                {role}
-                {i < roles.length - 1 && (
-                  <span className="mx-2 text-muted-foreground">/</span>
-                )}
-              </span>
-            ))}
-          </motion.div>
+                <Button variant="outline" size="lg" className="w-full">
+                  <Download className="h-4 w-4" />
+                  Download CV
+                </Button>
+              </a>
+              <Link href="#contact" className="w-full sm:w-auto">
+                <Button variant="ghost" size="lg" className="w-full">
+                  <MessageCircle className="h-4 w-4" />
+                  Let&apos;s Work Together
+                </Button>
+              </Link>
+            </motion.div>
 
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.9 }}
-            className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground leading-relaxed sm:text-xl"
-          >
-            I design and build scalable, modern, and user-centered software solutions that
-            solve real-world problems through clean architecture, efficient development practices,
-            and exceptional user experiences.
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 1.1 }}
-            className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center"
-          >
-            <Link href="#contact">
-              <Button size="lg" className="group">
-                Hire Me
-                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </Button>
-            </Link>
-            <Link href="#projects">
-              <Button variant="outline" size="lg">
-                View Projects
-              </Button>
-            </Link>
-            <a href={SITE_CONFIG.resume} target="_blank" rel="noopener noreferrer">
-              <Button variant="ghost" size="lg">
-                <Download className="h-4 w-4" />
-                Download Resume
-              </Button>
-            </a>
-          </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.65 }}
+              className="mt-10"
+            >
+              <SocialLinks className="justify-center lg:justify-start" links={socials} />
+            </motion.div>
+          </div>
 
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 1.3 }}
-            className="mt-12"
+            style={{
+              x: visualX,
+              y: visualY,
+              rotateX,
+              rotateY,
+              transformPerspective: 900,
+            }}
+            className="flex justify-center lg:justify-end"
           >
-            <SocialLinks size="lg" className="justify-center" />
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <HeroVisual />
+            </motion.div>
           </motion.div>
         </div>
       </Container>
-
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 2, duration: 1 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2"
-      >
-        <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-          className="flex flex-col items-center gap-2 text-muted-foreground"
-        >
-          <span className="text-xs uppercase tracking-widest">Scroll</span>
-          <div className="h-6 w-5 rounded-full border-2 border-muted-foreground/30 pt-1">
-            <motion.div
-              animate={{ y: [0, 12, 0] }}
-              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-              className="mx-auto h-1.5 w-1.5 rounded-full bg-primary"
-            />
-          </div>
-        </motion.div>
-      </motion.div>
     </section>
   );
 }

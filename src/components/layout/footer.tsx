@@ -1,86 +1,68 @@
-"use client";
-
 import Link from "next/link";
-import { Heart, ArrowUp } from "lucide-react";
 import { Container } from "@/components/ui/container";
 import { Separator } from "@/components/ui/separator";
-import { NAV_LINKS, SITE_CONFIG } from "@/constants";
-import { SocialLinks } from "@/components/shared/social-links";
+import { SITE_CONFIG, NAV_LINKS, SOCIAL_LINKS } from "@/content/site";
+import { services as staticServices } from "@/content/services";
 import { Logo } from "@/components/shared/logo";
+import { SocialLinks } from "@/components/shared/social-links";
+import { AvailabilityBadge } from "@/components/shared/availability-badge";
+import { FooterContent } from "@/components/layout/footer-content";
+import { BackToTop } from "@/components/layout/back-to-top";
+import type { Availability } from "@/types";
 
-export function Footer() {
-  const currentYear = new Date().getFullYear();
+interface FooterProps {
+  site?: typeof SITE_CONFIG;
+  navLinks?: typeof NAV_LINKS;
+  socialLinks?: typeof SOCIAL_LINKS;
+  services?: typeof staticServices;
+  availability?: Availability;
+}
+
+/**
+ * Server-rendered Footer. Only the pathname-dependent link columns and the
+ * back-to-top button are client components; the rest is static HTML, so the
+ * copyright year cannot cause a hydration mismatch.
+ */
+export function Footer({
+  site = SITE_CONFIG,
+  navLinks = NAV_LINKS,
+  socialLinks = SOCIAL_LINKS,
+  services = staticServices,
+  availability = site.availability,
+}: FooterProps) {
+  const year = new Date().getFullYear();
 
   return (
-    <footer className="relative border-t border-border bg-card/50">
+    <footer className="relative border-t border-border/70 bg-surface/60">
+      <div
+        className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent"
+        aria-hidden="true"
+      />
       <Container>
-        <div className="py-12 lg:py-16">
-          <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-4">
-            <div className="sm:col-span-2 lg:col-span-2">
-              <Link href="/" className="group flex items-center gap-2 mb-4">
-                <Logo size={36} />
-                <span className="text-lg font-bold">{SITE_CONFIG.name}</span>
-              </Link>
-              <p className="max-w-md text-muted-foreground leading-relaxed">
-                Software Engineer | Full Stack Developer.
-                Available for freelance, remote &amp; full-time opportunities.
-              </p>
-              <SocialLinks className="mt-6" />
-            </div>
-
-            <div>
-              <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-foreground">
-                Navigation
-              </h3>
-              <ul className="space-y-3">
-                {NAV_LINKS.map((link) => (
-                  <li key={link.href}>
-                    <Link
-                      href={link.href}
-                      className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-                    >
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div>
-              <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-foreground">
-                Contact
-              </h3>
-              <ul className="space-y-3 text-sm text-muted-foreground">
-                <li>
-                  <a href={`mailto:${SITE_CONFIG.email}`} className="transition-colors hover:text-foreground">
-                    {SITE_CONFIG.email}
-                  </a>
-                </li>
-                <li>{SITE_CONFIG.location}</li>
-                <li className="flex items-center gap-1.5">
-                  <span className="inline-block h-2 w-2 rounded-full bg-success animate-pulse" />
-                  Available for work
-                </li>
-              </ul>
-            </div>
+        <FooterContent site={site} navLinks={navLinks} services={services} availability={availability}>
+          <div className="sm:col-span-2 lg:col-span-1">
+            <Link href="/" className="group flex items-center gap-2.5">
+              <Logo size={36} />
+              <span className="flex flex-col leading-tight">
+                <span className="text-lg font-bold tracking-tight">{site.name}</span>
+                <span className="text-xs font-medium text-muted-foreground">{site.role}</span>
+              </span>
+            </Link>
+            <p className="mt-4 max-w-md leading-relaxed text-muted-foreground">
+              {site.tagline}
+            </p>
+            <SocialLinks className="mt-6" size="sm" links={socialLinks} />
+            <AvailabilityBadge className="mt-6" availability={availability} />
           </div>
-        </div>
+        </FooterContent>
 
         <Separator />
 
         <div className="flex flex-col items-center justify-between gap-4 py-6 sm:flex-row">
           <p className="text-sm text-muted-foreground">
-            &copy; {currentYear} {SITE_CONFIG.name}. All rights reserved.
+            &copy; {year} {site.name}. All rights reserved.
           </p>
-          <div className="flex items-center gap-4">
-            <button
-              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-              className="flex h-8 w-8 items-center justify-center rounded-lg bg-secondary text-muted-foreground transition-colors hover:bg-primary hover:text-primary-foreground"
-              aria-label="Back to top"
-            >
-              <ArrowUp className="h-4 w-4" />
-            </button>
-          </div>
+          <BackToTop />
         </div>
       </Container>
     </footer>

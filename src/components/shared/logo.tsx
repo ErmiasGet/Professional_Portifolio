@@ -30,10 +30,10 @@ export function Logo({ className, size = 36, showText = false, text }: LogoProps
           d="M15 19h19v5H20v4.5h11v5H20v5.5h14v5H15V19z"
           fill="white"
         />
-        <path
-          d="M38 19h10.5c3.5 0 6 2.5 6 6 0 2-.9 3.7-2.4 4.8L56 40h-6l-3-8.5h-1v9h-5V19h-3zm2.5 4.5v9h8c2.5 0 3.8-1.5 3.8-3.5 0-2.2-1.3-3.8-3.8-3.8h-8z"
-          fill="white"
-        />
+        <rect x="38" y="19" width="5" height="30" rx="1.5" fill="white" />
+        <rect x="38" y="19" width="17" height="5" rx="1.5" fill="white" />
+        <rect x="38" y="44" width="12" height="5" rx="1.5" fill="white" />
+        <rect x="42" y="31" width="13" height="6" rx="1.5" fill="white" />
       </svg>
       {showText && text && (
         <span className="text-lg font-bold">{text}</span>

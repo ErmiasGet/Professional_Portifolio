@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="800" y2="450" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#1a1033"/>
+      <stop offset="100%" stop-color="#0d1117"/>
+    </linearGradient>
+    <linearGradient id="grad" x1="0" y1="0" x2="200" y2="200" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#8B5CF6"/>
+      <stop offset="100%" stop-color="#2DD4BF"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="450" fill="url(#bg)"/>
+  <g fill="#8B5CF6" opacity="0.06">
+    <circle cx="40" cy="40" r="2"/><circle cx="80" cy="40" r="2"/><circle cx="120" cy="40" r="2"/><circle cx="160" cy="40" r="2"/><circle cx="200" cy="40" r="2"/><circle cx="240" cy="40" r="2"/><circle cx="280" cy="40" r="2"/><circle cx="320" cy="40" r="2"/><circle cx="360" cy="40" r="2"/><circle cx="400" cy="40" r="2"/><circle cx="440" cy="40" r="2"/><circle cx="480" cy="40" r="2"/><circle cx="520" cy="40" r="2"/><circle cx="560" cy="40" r="2"/><circle cx="600" cy="40" r="2"/><circle cx="640" cy="40" r="2"/><circle cx="680" cy="40" r="2"/><circle cx="720" cy="40" r="2"/><circle cx="760" cy="40" r="2"/>
+    <circle cx="40" cy="80" r="2"/><circle cx="80" cy="80" r="2"/><circle cx="120" cy="80" r="2"/><circle cx="160" cy="80" r="2"/><circle cx="200" cy="80" r="2"/><circle cx="240" cy="80" r="2"/><circle cx="280" cy="80" r="2"/><circle cx="320" cy="80" r="2"/><circle cx="360" cy="80" r="2"/><circle cx="400" cy="80" r="2"/><circle cx="440" cy="80" r="2"/><circle cx="480" cy="80" r="2"/><circle cx="520" cy="80" r="2"/><circle cx="560" cy="80" r="2"/><circle cx="600" cy="80" r="2"/><circle cx="640" cy="80" r="2"/><circle cx="680" cy="80" r="2"/><circle cx="720" cy="80" r="2"/><circle cx="760" cy="80" r="2"/>
+  </g>
+  <g transform="translate(400,180)">
+    <rect x="-95" y="-85" width="190" height="170" rx="10" fill="url(#grad)" opacity="0.12"/>
+    <rect x="-75" y="-65" width="150" height="150" rx="8" fill="url(#grad)" opacity="0.18"/>
+    <rect x="-45" y="-25" width="90" height="110" rx="6" fill="url(#grad)" opacity="0.3"/>
+    <rect x="-15" y="-45" width="30" height="20" rx="3" fill="url(#grad)" opacity="0.4"/>
+    <rect x="-15" y="-5" width="30" height="20" rx="3" fill="url(#grad)" opacity="0.4"/>
+    <rect x="-15" y="35" width="30" height="20" rx="3" fill="url(#grad)" opacity="0.4"/>
+  </g>
+  <g stroke="url(#grad)" stroke-width="2" fill="none" opacity="0.35">
+    <path d="M100,180 L170,180 L170,130 L230,130 L230,230 L300,230"/>
+    <path d="M500,230 L570,230 L570,150 L630,150 L630,210 L700,210"/>
+  </g>
+  <text x="400" y="340" text-anchor="middle" font-family="system-ui" font-weight="700" font-size="32" fill="white">Engida</text>
+  <text x="400" y="375" text-anchor="middle" font-family="system-ui" font-weight="400" font-size="16" fill="#A78BFA">Multi-Tenant Property Management Platform</text>
+  <g font-family="system-ui" font-size="12" fill="#A78BFA">
+    <rect x="275" y="395" width="60" height="24" rx="4" fill="#1a1033" stroke="#8B5CF6" stroke-width="0.5" opacity="0.5"/>
+    <text x="305" y="411" text-anchor="middle">React</text>
+    <rect x="345" y="395" width="80" height="24" rx="4" fill="#1a1033" stroke="#8B5CF6" stroke-width="0.5" opacity="0.5"/>
+    <text x="385" y="411" text-anchor="middle">Next.js</text>
+    <rect x="435" y="395" width="90" height="24" rx="4" fill="#1a1033" stroke="#8B5CF6" stroke-width="0.5" opacity="0.5"/>
+    <text x="480" y="411" text-anchor="middle">PostgreSQL</text>
+  </g>
+</svg>
